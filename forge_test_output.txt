@@ -1,0 +1,206 @@
+No files changed, compilation skipped
+
+Ran 2 tests for test/L1Trigger.t.sol:L1TriggerTest
+[PASS] test_FlashPushSingleBlock_Insufficient() (gas: 3752267)
+Logs:
+  EMA before push: 1005210731852536963
+  reUSD spent to reach cap: 2100000000000000000000000
+  sDOLA received: 1730430644032716952480460
+  last_price(0) recorded (capped): 2000000000000000000
+  EMA same block after push: 1005210731852536963
+  EMA after +12s: 1018900274885724645
+
+[PASS] test_TriggerCost_NoArb_And_Unwind() (gas: 5224171)
+Logs:
+  == dislocation ==
+  reUSD spent: 2100000000000000000000000
+  sDOLA received: 1730430644032716952480460
+  avg execution price (reUSD per sDOLA): 1213570741619561646
+  pool sDOLA balance after push: 131910628103368238442783
+  pool reUSD balance after push: 6741856864843905009086106
+  t+ (s): 300  EMA: 1296469942995009493
+  t+ (s): 600  EMA: 1502452874234188680
+  t+ (s): 900  EMA: 1648127127060238675
+  t+ (s): 1200  EMA: 1751150167895534721
+  t+ (s): 1500  EMA: 1824009624779964253
+  t+ (s): 1800  EMA: 1875536937645644448
+  == trigger ==
+  time to trigger (s): 2040
+  windDownStartPrice: 523342775120731507
+  keeper DOLA reward: 20000000000000000000
+  == unwind ==
+  attacker reUSD before: 40000000000000000000000000
+  attacker reUSD after unwind: 39998598056785182923692930
+  attacker sDOLA dust left: 0
+  NET ROUND-TRIP COST (reUSD): 1401943214817076307070
+  pool price_oracle(0) after unwind: 1905663070957512357
+  pool last_price(0) after unwind: 1005213655680167246
+
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 2.87s (34.75ms CPU time)
+
+Ran 1 test for test/L3FixedPrice.t.sol:L3FixedPriceTest
+[PASS] test_DepegBelowThreshold_FixedPriceHolds() (gas: 59428743)
+Logs:
+  DBR balances[whale] slot value before: 4362539427974030106927588
+  DBR balanceOf(whale) before: 134870461628701509942872
+  DBR balanceOf(whale) after store: 45772331033654671403015284
+  DBR deficitOf(whale) after store: 0
+  vault rate: 1000174785818418008
+  whale debt: 2487310000000000000000000
+  whale escrow (sSwanUSD): 3053329012168386919738678
+  liquidation incentive bps: 500
+  fixed mode active: true
+  oracle price before depeg: 1000174785818418008
+  oracle price after depeg (still $1-based): 1000174785818418008
+  switch updatedAt after depeg (0 = brake): 0
+  borrow controller sees stale: true
+  borrow blocked by the brake: OK
+  true collateral value at 0.80: 2443090152622942575323122
+  true credit limit at 0.80: 2076626629729501189024653
+  $1-based credit limit: 2595783287161876486280817
+  liquidation reverts at $1 valuation despite true-price underwater: OK
+  withdrawal limit at $1 valuation: 127593330450461344161807
+  true value of that withdrawable amount at 0.80: 102092505564119045911358
+  withdraw reverted on the fork inside the third-party escrow leg
+  (same local-fork artifact as L-1 market 1; pay-path liveness
+  is cross-checked by eth_call at the same block -- see report)
+  escrow balance after withdraw attempt: 3053329012168386919738678
+  remaining true collateral value: 2443090152622942575323122
+  max recoverable via liquidation at true prices: 2326752526307564357450592
+  bad debt at true prices: 160557473692435642549408
+  fixed mode active after guardian toggle: false
+  oracle price after toggle (true pricing restored): 800139828654734406
+  whale credit limit at true pricing: 2076626629729501187986522
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 3.13s (7.53ms CPU time)
+
+Ran 2 tests for test/L1Cascade.t.sol:L1CascadeTest
+[PASS] test_Cascade() (gas: 8628150)
+Logs:
+  baseline LP oracle price: 1077030146715635891
+  baseline yvLP oracle price: 1397392305533564897
+  P2 baseline (market reUSD-sDOLA):
+    debt: 264112382799678379057325
+    creditLimit (view): 276889312970521258136675
+    escrow balance: 302454052841385019334592
+    liquidatable now? false
+  P5 baseline (market yv-reUSD-sDOLA):
+    debt: 275358888915590874495786
+    creditLimit (view): 287734664927274600344469
+    escrow balance: 242245051130020745784992
+    liquidatable now? false
+  P4 baseline (market yv-reUSD-sDOLA):
+    debt: 519084000000000000000000
+    creditLimit (view): 743209135301959927630524
+    escrow balance: 625710965437643285508519
+    liquidatable now? false
+  EMA at +600s into climb: 1502452874234188680
+  LP feed price at +600s: 720583470783495121
+  P2 at +600s into the climb (wind-down NOT yet active):
+    debt: 264112382799678379057325
+    creditLimit (view): 185251882476632873831132
+    escrow balance: 302454052841385019334592
+    liquidatable now? true
+  P4 at +600s into the climb:
+    debt: 519084000000000000000000
+    creditLimit (view): 497241623056707422708706
+    escrow balance: 625710965437643285508519
+    liquidatable now? true
+  climb time to trigger (s): 1440
+  wind-down activated. startPrice: 523342775120731507
+  LP feed price at activation: 568119197363264011
+  LP feed price at activation+1h: 544448906235847845
+  == P5 EXECUTED liquidation at +1h ==
+  repaid: 162809116774998940798362
+  seized yvLP: 242002806078890725039204
+  seized value at undisturbed price: 338172859132173324404848
+  liquidator extraction (true value - repaid): 175363742357174383606486
+  residual debt (bad debt): 112549772140591933697424
+  == P2 COMPUTED liquidation at +1h (market 1) ==
+  repaid: 156829312624848954167299
+  seized LP: 302454052841385019334590
+  seized value at undisturbed price: 325752132906495597807851
+  liquidator extraction: 168922820281646643640552
+  residual debt (bad debt): 107283070174829424890026
+  LP feed price at activation+13h: 260396309792608073
+  == P4 EXECUTED liquidation at +13h ==
+  repaid: 201129265854517787714905
+  seized yvLP: 625085254472205642223005
+  seized value at undisturbed price: 873489324901950550238691
+  liquidator extraction: 672360059047432762523786
+  residual debt (bad debt): 317954734145482212285095
+  == totals (executed, yv market) ==
+  extraction: 847723801404607146130272
+  bad debt: 430504506286074145982519
+
+[PASS] test_StopSemantics_And_LowPoisoning() (gas: 5908032)
+Logs:
+  baseline LP oracle price: 1077030146715635891
+  baseline yvLP oracle price: 1397392305533564897
+  oracle.getPrice during decay (records the low): 544448906235847845
+  poisoned dailyLow recorded today: 544448906235847845
+  undisturbed LP price for reference: 1077030146715635891
+  feed price right after stop: 499025962811858332
+  feed updatedAt right after stop (0 = borrow still blocked): 0
+  EMA still >= 1.9? true
+  feed live price after pool recovery: 977029342709168070
+  EMA after recovery: 1020762587574476105
+  oracle.getPrice after recovery (same day): 640528124983350405
+  oracle.getPrice next day: 640528124983350405
+  oracle.getPrice two days later: 1077145580924860229
+
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 3.13s (75.66ms CPU time)
+
+Ran 2 tests for test/L2Staleness.t.sol:L2StalenessTest
+[PASS] test_Halt_WithdrawAtStalePrice_CreatesBadDebt() (gas: 4648063)
+Logs:
+  position opened: 4 WBTC collateral, debt: 100000000000000000000000
+  feed price P0: 63617330681263212840000
+  market staleness threshold (s): 86460
+  liquidation incentive bps: 1000
+  isPriceStale after 25h halt: true
+  CONTROL A passed: borrow reverts while feed is stale
+  withdrawal limit at stale price: 215070742
+  withdrew WBTC (raw): 215070742
+  escrow balance after withdraw: 184929258
+  feed resumed at P1: 38170398408757927704000
+  collateral value at resumed price: 70588234552959842719183
+  debt: 100000000000000000000000
+  residual debt after max liquidation (= bad debt): 35828873301676725469104
+
+[PASS] test_LiveFeed_SameDrop_NoBadDebt() (gas: 2036689)
+Logs:
+  position opened: 4 WBTC collateral, debt: 100000000000000000000000
+  feed price P0: 63617330681263212840000
+  market staleness threshold (s): 86460
+  liquidation incentive bps: 1000
+  isPriceStale with live feed: false
+  CONTROL B passed: stale-sized withdraw reverts against a live feed
+  true withdrawal limit: 91784568
+  residual debt after max liquidation: 25075000000000000000000
+  collateral value of what remains: 35229558536539236813728
+
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 1.37s (34.95ms CPU time)
+
+Ran 1 test for test/ProbeYvPay.t.sol:ProbeYvPayTest
+[PASS] test_ProbeYvWithdrawSmall() (gas: 429510)
+Logs:
+  P4 withdrawal limit: 188691914734947891039832
+  yv withdraw 100: OK
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1.65s (1.65s CPU time)
+
+Ran 2 tests for test/ProbeEscrowPay.t.sol:ProbeEscrowPayTest
+[PASS] test_ProbeWithdrawLarge() (gas: 55590419)
+Logs:
+  withdrawal limit: 13956603350213887739240
+  artifact reproduced at full limit as well
+
+[PASS] test_ProbeWithdrawSmall() (gas: 55590381)
+Logs:
+  withdrawal limit: 13956603350213887739240
+  artifact reproduced: fork withdraw reverts, eth_call succeeds
+
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 4.82s (4.86s CPU time)
+
+Ran 6 test suites in 4.83s (16.97s CPU time): 10 tests passed, 0 failed, 0 skipped (10 total tests)
